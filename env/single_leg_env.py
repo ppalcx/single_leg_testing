@@ -3,8 +3,10 @@ import time
 import pybullet_data
 import numpy as np
 import math
+import matplotlib.pyplot as plt
 hip_motor_id=0
 knee_motor_id=1
+spring_motor_id=2
 
 
 def ResetLeg(standstilltorque=0):
@@ -22,6 +24,12 @@ def ResetLeg(standstilltorque=0):
         controlMode=p.VELOCITY_CONTROL,
         targetVelocity=0,
         force=standstilltorque)
+    p.setJointMotorControl2(
+        bodyIndex=robot,
+        jointIndex=spring_motor_id,
+        controlMode=p.VELOCITY_CONTROL,
+        targetVelocity=0,
+        force=standstilltorque)
 
 
 physicsClient = p.connect(p.GUI)#or p.DIRECT for non-graphical version
@@ -36,7 +44,15 @@ for i in range (10000):
     p.stepSimulation()
     for theta in range(0,360,10):
         hip_pos=math.sin(math.radians(theta))*math.radians(30)
-        print(hip_pos)
+        # print(hip_pos)
+    # for i in range(0, 360, 5):
+    #     # Ellipse
+    #     x_h = a * cos(math.radians(i))
+    #     y_h = b * sin(math.radians(i))
+    #
+    #     x_k= a * cos(math.radians(i))
+    #     y_k= b * sin(math.radians(i))
+
         p.setJointMotorControl2(
                 bodyIndex=robot,
                 jointIndex=hip_motor_id,
@@ -49,7 +65,15 @@ for i in range (10000):
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=0,
                 force=10)
+        p.setJointMotorControl2(
+            bodyIndex=robot,
+            jointIndex=spring_motor_id,
+            controlMode=p.VELOCITY_CONTROL,
+            targetVelocity=0,
+            force=10)
         time.sleep(1./240.)
 robotPos, robotOrn = p.getBasePositionAndOrientation(robot)
+plt.plot(hip_pos)
+plt.show()
 print(robotPos,robotOrn)
 p.disconnect()
