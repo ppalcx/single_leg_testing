@@ -9,8 +9,10 @@ l1 = 6.2  # length of link a1 in cm
 l2 = 5.2  # length of link a2 in cm
 th1=[]
 th2=[]
+x_trac=[]
+y_trac=[]
 
-for i in range(0,360,5):
+for i in range(0,361,5):
     #Ellipse
     x=a*cos(math.radians(i))
     y=b*sin(math.radians(i))
@@ -27,12 +29,14 @@ for i in range(0,360,5):
     # print('theta two: ', theta_2)
     th1.append(theta_1)
     th2.append(theta_2)
-    # print(x)
-    # plt.plot(x,y)
-    # plt.show()
-theta=(th1,th2)
+    x_trac.append(x)
+    y_trac.append(y)
+# print(x)
+# plt.plot(x,y)
+# plt.show()
+# theta=(th1,th2)
 # print(theta)
-print(x)
-print(y)
-plt.plot(x,y)
+# print(x_trac)
+# print(y_trac)
+plt.plot(x_trac,y_trac)
 plt.show()

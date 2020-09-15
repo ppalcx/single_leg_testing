@@ -4,10 +4,17 @@ import pybullet_data
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+from ellipse_trajectory import trajectory
 hip_motor_id=0
 knee_motor_id=1
 spring_motor_id=2
-
+'''import joblib
+theta_knee = joblib.load('theta_knee.obj')
+theta_hip = joblib.load('theta_hip.obj')
+print(theta_knee)
+print(theta_hip)'''
+thetaS = trajectory()
+print(thetaS[0])
 
 def ResetLeg(standstilltorque=0):
     p.resetJointState(robot,hip_motor_id,targetValue=0, targetVelocity=0)
