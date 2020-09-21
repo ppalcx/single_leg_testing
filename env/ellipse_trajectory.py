@@ -24,7 +24,7 @@ def trajectory():
         y_knee.append(y_K)
         theta_hip.append(theta_h)
         theta_knee.append(theta_k)
-    return theta_hip, theta_knee
+    return [theta_hip, theta_knee]
 
 # if __name__ ==' __main__':
 #     joblib.dump(theta_hip, 'theta_hip.obj')
@@ -35,7 +35,7 @@ def trajectory():
 
 # print(theta_hip)
 # print(theta_knee)
-plt.plot(x_knee, y_knee)
-plt.show()
+# plt.plot(x_knee, y_knee)
+# plt.show()
 
 

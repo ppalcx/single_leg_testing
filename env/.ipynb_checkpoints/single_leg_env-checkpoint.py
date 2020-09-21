@@ -47,13 +47,22 @@ physicsClient = p.connect(p.GUI)#or p.DIRECT for non-graphical version
 p.setAdditionalSearchPath(pybullet_data.getDataPath()) #optionally
 p.setGravity(0,0,-10)
 planeId = p.loadURDF("plane.urdf")
-robotStartPos = [0,0,0.20]
+robotStartPos = [0,0,.25]
 robotStartOrientation = p.getQuaternionFromEuler([np.pi/2,0,0])
 robot = p.loadURDF("/home/pramod/Single_leg_test/Urdf/Test_1/urdf/Test_1.urdf",robotStartPos, robotStartOrientation,useFixedBase=1)
 ResetLeg()
 for i in range (10000):
-
+    p.stepSimulation()
     for theta in theta_pair:
+        #hip_pos=math.sin(math.radians(theta))*math.radians(30)
+        # print(hip_pos)
+    # for i in range(0, 360, 5):
+    #     # Ellipse
+    #     x_h = a * cos(math.radians(i))
+    #     y_h = b * sin(math.radians(i))
+    #
+    #     x_k= a * cos(math.radians(i))
+    #     y_k= b * sin(math.radians(i))
 
         p.setJointMotorControl2(
                 bodyIndex=robot,
@@ -67,29 +76,15 @@ for i in range (10000):
                 controlMode=p.POSITION_CONTROL,
                 targetPosition=theta[1],
                 force=10)
-        p.stepSimulation()
-        time.sleep(1. / 240.)
-#     for j in range(len(spring_deflection)):
-#
-#         p.setJointMotorControl2(
-#             bodyIndex=robot,
-#             jointIndex=spring_motor_id,
-#             controlMode=p.VELOCITY_CONTROL,
-#             targetVelocity=0,
-#             force=10)
-#         time.sleep(1./240.)
-#     spring_deflection=spring_def()
-#     z_f=-k*spring_deflection+c*spring velocity
-#     apply_external_force(z_f,spring_motor_id)
-#
-# def spring_def():
-#     spring_deflection=p.getJointState(robot,spring_motor_id)[0]
-#     return spring_deflection
-# def apply_external_force(z_f,spring_motor_id):
-#     p.applyExternalForces(robot,spring_motor_id,forceObj=[z_f,0,0],posObj=[0,0,0],flags=p.LINK_FRAME)
+        p.setJointMotorControl2(
+            bodyIndex=robot,
+            jointIndex=spring_motor_id,
+            controlMode=p.VELOCITY_CONTROL,
+            targetVelocity=0,
+            force=10)
+        time.sleep(1./240.)
 robotPos, robotOrn = p.getBasePositionAndOrientation(robot)
-print(theta_pair)
-# plt.plot(hip_pos)
-# plt.show()
-# print(robotPos,robotOrn)
+plt.plot(hip_pos)
+plt.show()
+print(robotPos,robotOrn)
 p.disconnect()
