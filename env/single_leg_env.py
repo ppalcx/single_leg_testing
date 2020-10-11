@@ -57,19 +57,20 @@ z_path=[]
 linkposition=[]
 l1=[-1.52,-1.52]
 l2=[1.52,1.52]
-for i in range (50):
+for i in range (4):
 
-    a = 0.07
-    b = 0.07
-    for j in range(0, 361, 2):
+    a = 0.06
+    b = 0.03
+    for j in range(361,0, -2):
         # Ellipse
         x = a * m.cos(m.radians(j))
-        z = 2*0.04+b * m.sin(m.radians(j))
+        z = 2*0.025+ b * m.sin(m.radians(j))
         # x=0.1
-        # z=0.137
+        # z=0.
+        # 137
         path=[x,0,z]
-        theta=p.calculateInverseKinematics(robot,end_motor_id,path)
-        linkpos=p.getLinkState(robot,spring_motor_id)[0]
+        theta=p.calculateInverseKinematics(robot,end_motor_id,path,residualThreshold=.002, maxNumIterations=1000 )
+        linkpos=p.getLinkState(robot,end_motor_id)[0]
         x_path.append(linkpos[0])
         z_path.append(linkpos[2])
         linkposition.append(linkpos)
@@ -89,22 +90,22 @@ for i in range (50):
                     bodyIndex=robot,
                     jointIndex=knee_motor_id,
                     controlMode=p.POSITION_CONTROL,
-                    targetPosition=theta[1]
+                    targetPosition=theta[1])
                    # positionGain=25,
                     #velocityGain=2
                     # force=100
+            p.setJointMotorControl2(
+                   bodyIndex=robot,
+                   jointIndex=spring_motor_id,
+                   controlMode=p.POSITION_CONTROL,
+                   targetPosition=0)
+                   # force=10)
 
-                            )
             p.stepSimulation()
-        time.sleep(1. / 240.)
+            time.sleep(1. / 240.)
 #     for j in range(len(spring_deflection)):
 #
-#         p.setJointMotorControl2(
-#             bodyIndex=robot,
-#             jointIndex=spring_motor_id,
-#             controlMode=p.VELOCITY_CONTROL,
-#             targetVelocity=0,
-#             force=10)
+#
 #         time.sleep(1./240.)
 #     spring_deflection=spring_def()
 #     z_f=-k*spring_deflection+c*spring velocity
@@ -115,11 +116,11 @@ for i in range (50):
 #     return spring_deflection
 # def apply_external_force(z_f,spring_motor_id):
 #     p.applyExternalForces(robot,spring_motor_id,forceObj=[z_f,0,0],posObj=[0,0,0],flags=p.LINK_FRAME)
-# plt.plot(x_path,z_path)
+plt.plot(x_path,z_path)
 # plt.show()
 # plt.plot(linkposition[0])
 # robotPos, robotOrn = p.getBasePositionAndOrientation(robot)
 # plt.plot(hip_pos)
-# plt.show()
+plt.show()
 # print(robotPos,robotOrn)
 p.disconnect()
