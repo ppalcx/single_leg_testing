@@ -3,10 +3,10 @@ import math as m
 import matplotlib.pyplot as plt
 
 def trajectory_ellipse():
-    a = .06
-    b = .03
-    l1 = .137  # length of link a1 in cm
-    l2 = .10  # length of link a2 in cm
+    a = 0.06
+    b = 0.03
+    l1 = 0.137  # length of link a1 in m
+    l2 = 0.100  # length of link a2 in m
     th1 = []
     th2 = []
     x_trac = []
@@ -14,8 +14,8 @@ def trajectory_ellipse():
 
     for i in range(0, 361, 5):
         #Ellipse
-        x=-0.2+(a*m.cos(m.radians(i)))
-        y=b*m.sin(m.radians(i))
+        x= a*m.cos(m.radians(i))
+        y= b*m.sin(m.radians(i))
         # x = 0.1
         # y = -0.2
         # Invese kinematics
