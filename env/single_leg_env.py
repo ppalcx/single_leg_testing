@@ -57,7 +57,7 @@ z_path=[]
 linkposition=[]
 l1=[-1.52,-1.52]
 l2=[1.52,1.52]
-for i in range (4):
+for i in range (100):
 
     a = 0.06
     b = 0.03
@@ -91,15 +91,18 @@ for i in range (4):
                     jointIndex=knee_motor_id,
                     controlMode=p.POSITION_CONTROL,
                     targetPosition=theta[1])
-                   # positionGain=25,
+                    #positionGain=25,
                     #velocityGain=2
                     # force=100
             p.setJointMotorControl2(
                    bodyIndex=robot,
                    jointIndex=spring_motor_id,
                    controlMode=p.POSITION_CONTROL,
-                   targetPosition=0)
-                   # force=10)
+                   targetPosition=0,
+                   positionGain=0.01,
+                   velocityGain=0.005
+                   )
+
 
             p.stepSimulation()
             time.sleep(1. / 240.)
